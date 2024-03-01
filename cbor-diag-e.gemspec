@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "cbor-diag-e"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
   s.summary = "CBOR (Concise Binary Object Representation) diagnostic notation"
   s.description = %q{cbor-diag-e implements external constants for CBOR diagnostic notation}
   s.author = "Carsten Bormann"
@@ -13,5 +13,6 @@ Gem::Specification.new do |s|
 
   s.require_paths = ["lib"]
 
+  s.add_dependency('cddlc', '>= 0.2.7')
   s.add_development_dependency 'bundler', '~>1'
 end
