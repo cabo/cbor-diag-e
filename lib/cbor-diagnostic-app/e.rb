@@ -5,16 +5,21 @@ require 'yaml'
 
 class CBOR_DIAG::App_e
   CBOR_DIAG_CDDL_NAME = ENV["CBOR_DIAG_CDDL"]
-  raise "e'...': No CBOR_DIAG_CDDL given" unless CBOR_DIAG_CDDL_NAME
 
-  cddlcs, status = Open3.capture2("cddlc -2tconst #{Shellwords.escape(CBOR_DIAG_CDDL_NAME)}")
-  raise "e'...': cannot run cddlc" unless status.success?
-  CONSTS_MAP = YAML.load(cddlcs)
+  def self.consts_map(s)
+    @cached_consts_map ||= (
+      raise "e'#{s}': No CBOR_DIAG_CDDL file name given in environment" unless CBOR_DIAG_CDDL_NAME
+
+      cddlcs, status = Open3.capture2("cddlc -2tconst #{Shellwords.escape(CBOR_DIAG_CDDL_NAME)}")
+      raise "e'#{s}': Cannot run cddlc on #{CBOR_DIAG_CDDL_NAME.inspect}" unless status.success?
+      YAML.load(cddlcs)
+    )
+  end
 
   def self.decode(_, s)
-    CONSTS_MAP.fetch(s) do
+    consts_map(s).fetch(s) do
       construct = "e'#{s}'"
-      warn "*** e'...': No external constant value defined for #{construct}"
+      warn "*** #{construct}: No external constant value defined in #{CBOR_DIAG_CDDL_NAME.inspect}"
       construct
     end
   end

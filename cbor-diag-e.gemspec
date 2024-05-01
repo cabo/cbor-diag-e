@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "cbor-diag-e"
-  s.version = "0.0.3"
+  s.version = "0.0.4"
   s.summary = "CBOR (Concise Binary Object Representation) diagnostic notation"
   s.description = %q{cbor-diag-e implements external constants for CBOR diagnostic notation}
   s.author = "Carsten Bormann"
